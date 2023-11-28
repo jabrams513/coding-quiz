@@ -1,17 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coding Quiz</title>
-    <link href="./reset.css" rel="stylesheet" />
-    <link href="./style.css" rel="stylesheet" />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding Quiz</title>
+  <link href="./reset.css" rel="stylesheet" />
+  <link href="./style.css" rel="stylesheet" />
+</head>
 
-  <body>
+<body>
+  <header>
+    <section>
+      <button>View High Scores</button>
+    </section>
+    <section>
+      <p>Time Remaining: 60 seconds</p>
+    </section>
+  </header>
 
-    <script src="./script.js"></script>
-  </body>
+  <main>
+    <!--This section introduces the main webpage content-->
+    <section>
+      <h1>
+        Coding Quiz Challenge
+      </h1>
+      <p>
+        Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers
+        will penalize your score/time by ten seconds!
+      </p>
+      <button>Start Quiz</button>
+    </section>
+
+    <!--This section introduces the questions section-->
+    <section>
+      <!--This is the body of the question and includes the answer selection buttons-->
+      <h2>¿Question?</h2>
+      <ul>
+        <li><button>Response 1</button></li>
+        <li><button>Response 2</button></li>
+        <li><button>Response 3</button></li>
+        <li><button>Response 4</button></li>
+      </ul>
+      <!-- Section to show whether the response is correct or incorrect -->
+      <p>Response Correct/Incorrect</p>
+    </section>
+
+    <!--Section once quiz is completed to view score and provide initials-->
+    <section>
+      <h2 id="finish">All Done!</h2>
+      <p id="final_score">Your final score is: </p>
+      <p>Enter initials:
+        <input>
+        <button>Submit</button>
+      </p>
+    </section>
+
+    <!--high score section-->
+    <section>
+      <h2>High Scores</h2>
+      <p>YOUR RECORD HERE</p>
+      <button>Go back</button>
+      <button>Clear High Scores</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>A Grand Slam Ventures Production 🏆 brought to you by @Jabrams513</p>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
 
 </html>
