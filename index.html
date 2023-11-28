@@ -36,32 +36,32 @@
     <!--This section introduces the questions section-->
     <section id="questionBlock">
       <!--This is the body of the question and includes the answer selection buttons-->
-      <h2>¿Question?</h2>
+      <h2 id="questionText">¿Question?</h2>
       <ul>
-        <li><button class="button" id="response1Btn">Response 1</button></li>
-        <li><button class="button" id="response1Btn">Response 2</button></li>
-        <li><button class="button" id="response1Btn">Response 3</button></li>
-        <li><button class="button" id="response1Btn">Response 4</button></li>
+        <li><button class="button" class="responses" id="response1Btn">Response 1</button></li>
+        <li><button class="button" class="responses" id="response2Btn">Response 2</button></li>
+        <li><button class="button" class="responses" id="response3Btn">Response 3</button></li>
+        <li><button class="button" class="responses" id="response4Btn">Response 4</button></li>
       </ul>
       <!-- Section to show whether the response is correct or incorrect -->
-      <p>Response Correct/Incorrect</p>
+      <p id="rightWrong">Response Correct/Incorrect</p>
     </section>
 
     <!--Section once quiz is completed to view score and provide initials-->
-    <section>
-      <h2>All Done!</h2>
-      <p>Your final score is: </p>
+    <section id="submitBlock">
+      <h2 id="completion">All Done!</h2>
+      <p id="finalScore">Your final score is: </p>
       <p>Enter initials:
-        <input>
+        <input id="initials">
         <button class="button" id="submitBtn">Submit</button>
       </p>
     </section>
 
-    <!--high score section-->
-    <section>
+    <!--Section to view scores from previous rounds-->
+    <section id="scoreBlock">
       <h2>High Scores</h2>
-      <p>YOUR RECORD HERE</p>
-      <button class="button" id="goBackBtn">Go back</button>
+      <p id="scoreRecord">YOUR RECORD HERE</p>
+      <button class="button" id="goBackBtn">Go Back</button>
       <button class="button" id="clearHighScoresBtn">Clear High Scores</button>
     </section>
   </main>
