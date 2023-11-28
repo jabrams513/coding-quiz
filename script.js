@@ -1,12 +1,50 @@
 // Assign variables to DOM elements and attributes
-var startQuizBtnEl = document.getElementById("startQuizBtn");
 let timeRemainingEl = document.getElementById("clock");
+let startQuizBtnEl = document.getElementById("startQuizBtn");
+let welcomeBlockEl = document.getElementById("welcomeBlock");
+let questionBlockEl = document.getElementById("questionBlock")
 
-let secondsRemaining = 120;
+// Variables for starting conditions
+let secondsRemaining = 60;
+let questionNum = 0;
+let score = 0;
+let questionCount =0;
 
 // EVENT LISTENERS
 // Begin timer countdown on Start Button click
 startQuizBtnEl.addEventListener("click", startQuiz);
+
+// FUNCTIONS
+// Countdown timer starts when you click on Start Quiz
+function countdown() {
+    let timeInterval = setInterval(function () {
+        if (secondsRemaining > 1) {
+            // Set the `textContent` of `timeRemainingEl` to show the remaining seconds
+            timeRemainingEl.textContent = "Time Remaining: " + secondsRemaining + " seconds";
+            // Decrement `secondsRemaining` by 1
+            secondsRemaining--;
+        } else if (secondsRemaining === 1) {
+            // When `secondsRemaining` is equal to 1, rename to 'second' instead of 'seconds'
+            timeRemainingEl.textContent = "Time Remaining: " + secondsRemaining + " second";
+            secondsRemaining--;
+        } else {
+            // Once `secondsRemaining` gets to 0, set `timeRemainingEl` to an empty string
+            timeRemainingEl.textContent = "You're out of time!";
+            // Use `clearInterval()` to stop the timeRemaining
+            clearInterval(timeInterval);
+        }
+    }, 1000);
+}
+
+// When quiz starts, begin clock countdown, display a question, hide welcomeBlock, display questionBlock, start at the first question in the quizBank array
+function startQuiz() {
+    countdown();
+    welcomeBlockEl.style.display = "none";
+    questionBlockEl.style.display = "block";
+    questionNum = 0;
+    displayQuestion(questionNum);
+}
+
 
 // Create a bank for questions, responses, and correct answers
 let quizBank = [
@@ -36,31 +74,3 @@ let quizBank = [
         correctAnswer: "A",
     },
 ]
-
-// FUNCTIONS
-// Timer starts when you click on Start Quiz
-function countdown() {
-    let timeInterval = setInterval(function () {
-        if (secondsRemaining > 1) {
-            // Set the `textContent` of `timeRemainingEl` to show the remaining seconds
-            timeRemainingEl.textContent = "Time Remaining: " + secondsRemaining + " seconds";
-            // Decrement `secondsRemaining` by 1
-            secondsRemaining--;
-        } else if (secondsRemaining === 1) {
-            // When `secondsRemaining` is equal to 1, rename to 'second' instead of 'seconds'
-            timeRemainingEl.textContent = "Time Remaining: " + secondsRemaining + " second";
-            secondsRemaining--;
-        } else {
-            // Once `secondsRemaining` gets to 0, set `timeRemainingEl` to an empty string
-            timeRemainingEl.textContent = '';
-            // Use `clearInterval()` to stop the timeRemaining
-            clearInterval(timeInterval);
-            // // Call the `displayMessage()` function
-            // displayMessage();
-        }
-    }, 1000);
-}
-
-function startQuiz() {
-    countdown()
-}
