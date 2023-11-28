@@ -10,9 +10,10 @@
 </head>
 
 <body>
+  <!-- Header with high score button and time remaining -->
   <header>
     <section>
-      <button>View High Scores</button>
+      <button class="button" id="viewHighScoreBtn">View High Scores</button>
     </section>
     <section>
       <p>Time Remaining: 60 seconds</p>
@@ -29,7 +30,7 @@
         Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers
         will penalize your score/time by ten seconds!
       </p>
-      <button>Start Quiz</button>
+      <button class="button" id="startQuizBtn">Start Quiz</button>
     </section>
 
     <!--This section introduces the questions section-->
@@ -37,10 +38,10 @@
       <!--This is the body of the question and includes the answer selection buttons-->
       <h2>¿Question?</h2>
       <ul>
-        <li><button>Response 1</button></li>
-        <li><button>Response 2</button></li>
-        <li><button>Response 3</button></li>
-        <li><button>Response 4</button></li>
+        <li><button class="button" id="response1Btn">Response 1</button></li>
+        <li><button class="button" id="response1Btn">Response 2</button></li>
+        <li><button class="button" id="response1Btn">Response 3</button></li>
+        <li><button class="button" id="response1Btn">Response 4</button></li>
       </ul>
       <!-- Section to show whether the response is correct or incorrect -->
       <p>Response Correct/Incorrect</p>
@@ -48,11 +49,11 @@
 
     <!--Section once quiz is completed to view score and provide initials-->
     <section>
-      <h2 id="finish">All Done!</h2>
-      <p id="final_score">Your final score is: </p>
+      <h2>All Done!</h2>
+      <p>Your final score is: </p>
       <p>Enter initials:
         <input>
-        <button>Submit</button>
+        <button class="button" id="submitBtn">Submit</button>
       </p>
     </section>
 
@@ -60,8 +61,8 @@
     <section>
       <h2>High Scores</h2>
       <p>YOUR RECORD HERE</p>
-      <button>Go back</button>
-      <button>Clear High Scores</button>
+      <button class="button" id="goBackBtn">Go back</button>
+      <button class="button" id="clearHighScoresBtn">Clear High Scores</button>
     </section>
   </main>
 
