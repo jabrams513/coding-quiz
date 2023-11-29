@@ -5,7 +5,7 @@ A timed coding quiz with multiple choice questions
 Create a site with multiple choice coding quiz questions. Include a timer and score tracker.
 
 ## Deployed Webpage Link
-<!-- https://jabrams513.github.io/Lernantino-pro-web-dev-portfolio/ -->
+https://jabrams513.github.io/coding-quiz/
 
 ## User Story
 
@@ -40,8 +40,10 @@ WHEN the game is over
 THEN I can save my initials and score
 
 ## Screenshot
-<!-- Please refer to the following screenshot as a reference for the web application's appearance and functionality:
-![Alt text](./assets/Lernantino-Screenshot.png) -->
+Please refer to the following screenshot as a reference for the web application's appearance and functionality:
+![HTML with nothing hidden](./pic1.png)
+![Question 1](./pic2.png)
+![High scores](./pic3.png)
 
 ## Code Sources and Collaborators
 I had the opportunity to collaborate with my peer Mustapha. We checked our work with one another.
