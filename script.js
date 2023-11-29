@@ -24,7 +24,7 @@ let clearHighScoresBtnEl = document.getElementById("clearHighScoresBtn");
 // Variables for starting conditions
 let secondsRemaining = 120;
 let questionNum = 0;
-let score = 0;
+let totalScore = 0;
 let questionCount = 1;
 
 // FUNCTIONS
@@ -68,35 +68,70 @@ function displayQuestion(z) {
     questionNum = z;
 }
 
+//After pressing a response button evaluate the response and say if answer is right or wrong 
+function evaluateResponse(event) {
+    event.preventDefault();
+    //Display the response evaluation because it is hidden in the CSS
+    rightWrongEl.style.display = "block";
+    setTimeout(function () {
+        rightWrongEl.style.display = "none";
+    }, 1000);
+    // Compare the correctAnswer from the quizBank to the value associated with the Button clicked
+    if (quizBank[questionNum].correctAnswer == event.target.value) {
+        rightWrongEl.textContent = "Correct!";
+        totalScore = totalScore + 1;
+
+    } else {
+        secondsRemaining = secondsRemaining - 10;
+        rightWrongEl.textContent = "Wrong! The correct answer is " + quizBank[questionNum].correctAnswer + " .";
+    }
+    //If there are more questions in the quizBank
+    if (questionNum < quizBank.length - 1) {
+        // display the next question or end the game
+        displayQuestion(questionNum + 1);
+    } else {
+        gameOver();
+    }
+    questionCount++;
+}
+
+
+// QUIZBANK
 // Create a bank for questions, responses, and correct answers
 let quizBank = [
     {
         question: "Question 1: What is question 1?",
         responses: ["A", "B", "C", "D"],
-        correctAnswer: "A",
+        correctAnswer: "A"
     },
     {
         question: "Question 2: What is question 2?",
         responses: ["A", "B", "C", "D"],
-        correctAnswer: "B",
+        correctAnswer: "B"
     },
     {
         question: "Question 3: What is question 3?",
         responses: ["A", "B", "C", "D"],
-        correctAnswer: "C",
+        correctAnswer: "C"
     },
     {
         question: "Question 4: What is question 4?",
         responses: ["A", "B", "C", "D"],
-        correctAnswer: "D",
+        correctAnswer: "D"
     },
     {
         question: "Question 5: What is question 5?",
         responses: ["A", "B", "C", "D"],
-        correctAnswer: "A",
+        correctAnswer: "A"
     },
 ]
 
 // EVENT LISTENERS
 // Begin timer countdown on Start Button click
 startQuizBtnEl.addEventListener("click", startQuiz);
+
+// Any clicked response button will evaluate the response and bring on the next question
+responseButtonsEl.forEach(function (click) {
+
+    click.addEventListener("click", evaluateResponse);
+});

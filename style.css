@@ -1,34 +1,40 @@
-*{
+/* Universal font style */
+* {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     box-sizing: border-box;
 }
 
-header{
+/* Formats high score and clock in header */
+header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    margin: 15px;
 }
 
+/* Centers body content in a vertical on the page */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     justify-content: center;
-  }
+}
 
+/* Centers body content in a vertical on the page */
 main {
     text-align: center;
     justify-content: center;
     flex: 1 0 auto;
-    margin-left:200px;
-    margin-right:200px;
+    margin-left: 200px;
+    margin-right: 200px;
 }
+
 footer {
     text-align: center;
 }
 
+/* Main question area framed in side the screen a bit more in a column */
 #questionBlock {
-    display:flex;
+    display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
@@ -40,42 +46,48 @@ ul {
     flex-direction: column;
     align-items: baseline;
     padding-left: 50px;
-   }
+}
 
 li {
     margin-bottom: 10px;
 }
 
-/* #questionBlock, #submitBlock, #scoreBlock, #rightWrong {
+/* On page load these IDs are hidden */
+#questionBlock, #submitBlock, #scoreBlock, #rightWrong {
     display:none;
-} */
+}
 
-.button{
-    background:purple;
+
+/* Button style */
+.button {
+    background: purple;
     color: white;
     border-radius: 3px;
     padding: 10px;
     cursor: pointer;
     margin-bottom: 10px;
-  }
-  
-.button:hover{
-    background-color:rgb(247, 205, 247);
 }
-  
+
+/* Button style when hovering */
+.button:hover {
+    background-color: rgb(247, 205, 247);
+}
+
+/* Media Queries for responsive designs */
 @media only screen and (max-width: 992px) {
     main {
-        margin-left:50px;
-        margin-right:50px;
+        margin-left: 50px;
+        margin-right: 50px;
     }
-  }
+}
 
 @media only screen and (max-width: 768px) {
     body {
-      font-size: 130%;
+        font-size: 130%;
     }
+
     main {
-        margin-left:12px;
-        margin-right:12px;
+        margin-left: 12px;
+        margin-right: 12px;
     }
 }
