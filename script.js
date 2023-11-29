@@ -26,12 +26,21 @@ let goBackBtnEl = document.getElementById("goBackBtn");
 let clearHighScoresBtnEl = document.getElementById("clearHighScoresBtn");
 
 // Variables for starting conditions
-let secondsRemaining = 10;
+let secondsRemaining = 60;
 let questionNum = 0;
 let totalScore = 0;
 let questionCount = 1;
 
 // FUNCTIONS
+// When quiz starts, begin clock countdown, display a question, hide welcomeBlock, display questionBlock, start at the first question in the quizBank array
+function startQuiz() {
+    countdown();
+    displayQuestion(questionNum);
+    questionNum = 0;
+    welcomeBlockEl.style.display = "none";
+    questionBlockEl.style.display = "block";
+}
+
 // Countdown timer starts when you click on Start Quiz
 function countdown() {
     let timeInterval = setInterval(function () {
@@ -68,23 +77,14 @@ function countdown() {
     }, 1000);
 }
 
-// When quiz starts, begin clock countdown, display a question, hide welcomeBlock, display questionBlock, start at the first question in the quizBank array
-function startQuiz() {
-    countdown();
-    welcomeBlockEl.style.display = "none";
-    questionBlockEl.style.display = "block";
-    questionNum = 0;
-    displayQuestion(questionNum);
-}
-
 // Use the quizBank to display questions and responses to the appropriate element based on which number question is being asked
 function displayQuestion(z) {
+    questionNum = z;
     questionTextEl.textContent = quizBank[z].question;
     response1BtnEl.textContent = quizBank[z].responses[0];
     response2BtnEl.textContent = quizBank[z].responses[1];
     response3BtnEl.textContent = quizBank[z].responses[2];
     response4BtnEl.textContent = quizBank[z].responses[3];
-    questionNum = z;
 }
 
 //After pressing a response button evaluate the response and say if answer is right or wrong 
@@ -94,11 +94,12 @@ function evaluateResponse(event) {
     rightWrongEl.style.display = "block";
     setTimeout(function () {
         rightWrongEl.style.display = "none";
-    }, 2000);
+    }, 1000);
     // Compare the correctAnswer from the quizBank to the value associated with the Button clicked
     if (quizBank[questionNum].correctAnswer == event.target.value) {
         rightWrongEl.textContent = "Correct!";
         totalScore = totalScore + 1;
+        // Deduct time for wrong answers
     } else {
         secondsRemaining = secondsRemaining - 10;
         rightWrongEl.textContent = "Wrong! The correct answer is " + quizBank[questionNum].correctAnswer + " .";
@@ -113,17 +114,74 @@ function evaluateResponse(event) {
     questionCount++;
 }
 
+// When the game ends hide some parts of the page and display the game score
 function endGame() {
+    // Hide game clock and question and submit blocks after game ends 
+    timeRemainingEl.style.display = "none";
     questionBlockEl.style.display = "none";
     submitBlockEl.style.display = "block";
-    console.log(submitBlockEl);
-    // show final score
+    // Display your score after the game
     finalScoreEl.textContent = "Congratulations! Your final score is: " + totalScore + " .";
-    // clearInterval(timerInterval);  
-    timeRemainingEl.style.display = "none";
 };
 
+// Set player scores and initials to the local storage
+function addItem(z) {
+    var addedList = recordScore();
+    addedList.push(z);
+    localStorage.setItem("ScoreList", JSON.stringify(addedList));
+};
 
+// Get player scores and initials from local storage
+function recordScore() {
+    var currentList = localStorage.getItem("ScoreList");
+    if (currentList !== null) {
+        newList = JSON.parse(currentList);
+        return newList;
+    } else {
+        newList = [];
+    }
+    return newList;
+};
+
+// Save score values to use when posting score to leaderboard
+function saveScore() {
+    var scoreVal = {
+        player: initialsEl.value,
+        score: totalScore
+    }
+    addItem(scoreVal);
+    postScore();
+}
+
+// Post scores to the score board for the top 5 finishes
+function postScore() {
+    scoreRecordEl.innerHTML = "";
+    scoreRecordEl.style.display = "block";
+    var highScores = sort();
+    // Slice the high scores array to show only the best in the list. 
+    var topFive = highScores.slice(0, 5);
+    for (var i = 0; i < topFive.length; i++) {
+        var item = topFive[i];
+        // Display the players and their scores on the score board
+        var li = document.createElement("li");
+        li.textContent = item.player + " ==> " + item.score;
+        li.setAttribute("data-order", i);
+        scoreRecordEl.appendChild(li);
+    }
+};
+
+// Sorting scores so they appear high to low in the high score ranking list
+function sort() {
+    var primaryList = recordScore();
+    if (recordScore == null) {
+        return;
+    } else {
+        primaryList.sort(function (x, y) {
+            return y.score - x.score;
+        })
+        return primaryList;
+    }
+};
 
 // QUIZBANK
 // Create a bank for questions, responses, and correct answers
@@ -161,6 +219,42 @@ startQuizBtnEl.addEventListener("click", startQuiz);
 
 // Any clicked response button will evaluate the response and bring on the next question
 responseButtonsEl.forEach(function (click) {
-
     click.addEventListener("click", evaluateResponse);
+});
+
+// After clicking on the submit button execute saveScore function
+submitBtnEl.addEventListener("click", function (event) {
+    event.preventDefault();
+    welcomeBlockEl.style.display = "none";
+    submitBlockEl.style.display = "none";
+    questionBlockEl.style.display = "none";
+    scoreBlockEl.style.display = "block";
+    saveScore();
+});
+
+// Clicking the viewHighScores button will take users to the leaderboard
+viewHighScoreBtnEl.addEventListener("click", function (event) {
+    event.preventDefault();
+    welcomeBlockEl.style.display = "none";
+    submitBlockEl.style.display = "none";
+    questionBlockEl.style.display = "none";
+    scoreBlockEl.style.display = "block";
+    postScore();
+});
+
+//Clicking the goBack button will return users to the main landing page
+goBackBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    welcomeBlockEl.style.display = "none";
+    submitBlockEl.style.display = "none";
+    questionBlockEl.style.display = "none";
+    scoreBlockEl.style.display = "block";
+    location.reload();
+});
+
+//Clicking clearHighScores button clears the local storage and eliminates entries from the leaderboard
+clearHighScoresBtnEl.addEventListener("click", function (event) {
+    event.preventDefault();
+    localStorage.clear();
+    postScore();
 });

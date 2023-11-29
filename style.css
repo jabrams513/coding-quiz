@@ -2,7 +2,6 @@
 * {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     box-sizing: border-box;
-    /* color: white; */
 }
 
 /* Formats high score and clock in header */
@@ -18,7 +17,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
     justify-content: center;
-    /* background-image: url("./pic1.jpg"); */
 }
 
 /* Centers body content in a vertical on the page */
