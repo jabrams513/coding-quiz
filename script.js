@@ -8,7 +8,7 @@ let response1BtnEl = document.getElementById("response1Btn");
 let response2BtnEl = document.getElementById("response2Btn");
 let response3BtnEl = document.getElementById("response3Btn");
 let response4BtnEl = document.getElementById("response4Btn");
-let responseButtonsEl = document.getElementsByClassName("responses");
+let responseButtonsEl = document.querySelectorAll(".responses");
 let rightWrongEl = document.getElementById("rightWrong");
 let submitBlockEl = document.getElementById("submitBlock");
 let finalScoreEl = document.getElementById("finalScore");
@@ -19,17 +19,13 @@ let scoreRecordEl = document.getElementById("scoreRecord");
 let viewHighScoreBtnEl = document.getElementById("viewHighScoreBtn");
 let completionEl = document.getElementById("completion");
 let goBackBtnEl = document.getElementById("goBackBtn");
-let clearHighScoresBtnEl= document.getElementById("clearHighScoresBtn");
+let clearHighScoresBtnEl = document.getElementById("clearHighScoresBtn");
 
 // Variables for starting conditions
-let secondsRemaining = 10;
+let secondsRemaining = 120;
 let questionNum = 0;
 let score = 0;
-let questionCount = 0;
-
-// EVENT LISTENERS
-// Begin timer countdown on Start Button click
-startQuizBtnEl.addEventListener("click", startQuiz);
+let questionCount = 1;
 
 // FUNCTIONS
 // Countdown timer starts when you click on Start Quiz
@@ -63,8 +59,8 @@ function startQuiz() {
 }
 
 // Use the quizBank to display questions and responses to the appropriate element based on which number question is being asked
-function displayQuestion(z){
-    questionText.textContent = quizBank[z].question;
+function displayQuestion(z) {
+    questionTextEl.textContent = quizBank[z].question;
     response1BtnEl.textContent = quizBank[z].responses[0];
     response2BtnEl.textContent = quizBank[z].responses[1];
     response3BtnEl.textContent = quizBank[z].responses[2];
@@ -100,3 +96,7 @@ let quizBank = [
         correctAnswer: "A",
     },
 ]
+
+// EVENT LISTENERS
+// Begin timer countdown on Start Button click
+startQuizBtnEl.addEventListener("click", startQuiz);
