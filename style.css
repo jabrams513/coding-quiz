@@ -2,6 +2,7 @@
 * {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     box-sizing: border-box;
+    /* color: white; */
 }
 
 /* Formats high score and clock in header */
@@ -17,6 +18,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     justify-content: center;
+    /* background-image: url("./pic1.jpg"); */
 }
 
 /* Centers body content in a vertical on the page */
@@ -30,6 +32,7 @@ main {
 
 footer {
     text-align: center;
+    margin-bottom: 15px;
 }
 
 /* Main question area framed in side the screen a bit more in a column */
@@ -40,12 +43,13 @@ footer {
     justify-content: center;
 }
 
-ul {
+ol {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: baseline;
     padding-left: 50px;
+    list-style: upper-alpha;
 }
 
 li {
@@ -53,8 +57,11 @@ li {
 }
 
 /* On page load these IDs are hidden */
-#questionBlock, #submitBlock, #scoreBlock, #rightWrong {
-    display:none;
+#questionBlock,
+#submitBlock,
+#scoreBlock,
+#rightWrong {
+    display: none;
 }
 
 

@@ -1,7 +1,10 @@
 // Assign variables to DOM elements and attributes
+let viewHighScoreBtnEl = document.getElementById("viewHighScoreBtn");
 let timeRemainingEl = document.getElementById("clock");
-let startQuizBtnEl = document.getElementById("startQuizBtn");
+
 let welcomeBlockEl = document.getElementById("welcomeBlock");
+let startQuizBtnEl = document.getElementById("startQuizBtn");
+
 let questionBlockEl = document.getElementById("questionBlock");
 let questionTextEl = document.getElementById("questionText");
 let response1BtnEl = document.getElementById("response1Btn");
@@ -10,19 +13,20 @@ let response3BtnEl = document.getElementById("response3Btn");
 let response4BtnEl = document.getElementById("response4Btn");
 let responseButtonsEl = document.querySelectorAll(".responses");
 let rightWrongEl = document.getElementById("rightWrong");
+
 let submitBlockEl = document.getElementById("submitBlock");
+let completionEl = document.getElementById("completion");
 let finalScoreEl = document.getElementById("finalScore");
 let initialsEl = document.getElementById("initials");
 let submitBtnEl = document.getElementById("submitBtn");
+
 let scoreBlockEl = document.getElementById("scoreBlock");
 let scoreRecordEl = document.getElementById("scoreRecord");
-let viewHighScoreBtnEl = document.getElementById("viewHighScoreBtn");
-let completionEl = document.getElementById("completion");
 let goBackBtnEl = document.getElementById("goBackBtn");
 let clearHighScoresBtnEl = document.getElementById("clearHighScoresBtn");
 
 // Variables for starting conditions
-let secondsRemaining = 120;
+let secondsRemaining = 10;
 let questionNum = 0;
 let totalScore = 0;
 let questionCount = 1;
@@ -36,15 +40,30 @@ function countdown() {
             timeRemainingEl.textContent = "Time Remaining: " + secondsRemaining + " seconds";
             // Decrement `secondsRemaining` by 1
             secondsRemaining--;
-        } else if (secondsRemaining === 1) {
+        }
+        else if (secondsRemaining === 1) {
             // When `secondsRemaining` is equal to 1, rename to 'second' instead of 'seconds'
             timeRemainingEl.textContent = "Time Remaining: " + secondsRemaining + " second";
             secondsRemaining--;
-        } else {
+        }
+        else if (secondsRemaining <= 0) {
+            clearInterval(timeInterval);
+            timeRemainingEl.textContent = "You're out of time!";
+            // If no time  remains present a message at CompletionEl
+            completionEl.textContent = "You're out of time!";
+            endGame();
+        }
+        else if (questionCount >= quizBank.length + 1) {
+            // End quiz if there are no more questions left in quizBank
+            clearInterval(timeInterval);
+            endGame();
+        }
+        else {
             // Once `secondsRemaining` gets to 0, set `timeRemainingEl` to an empty string
             timeRemainingEl.textContent = "You're out of time!";
             // Use `clearInterval()` to stop the timeRemaining
             clearInterval(timeInterval);
+            endGame()
         }
     }, 1000);
 }
@@ -75,12 +94,11 @@ function evaluateResponse(event) {
     rightWrongEl.style.display = "block";
     setTimeout(function () {
         rightWrongEl.style.display = "none";
-    }, 1000);
+    }, 2000);
     // Compare the correctAnswer from the quizBank to the value associated with the Button clicked
     if (quizBank[questionNum].correctAnswer == event.target.value) {
         rightWrongEl.textContent = "Correct!";
         totalScore = totalScore + 1;
-
     } else {
         secondsRemaining = secondsRemaining - 10;
         rightWrongEl.textContent = "Wrong! The correct answer is " + quizBank[questionNum].correctAnswer + " .";
@@ -90,10 +108,21 @@ function evaluateResponse(event) {
         // display the next question or end the game
         displayQuestion(questionNum + 1);
     } else {
-        gameOver();
+        endGame();
     }
     questionCount++;
 }
+
+function endGame() {
+    questionBlockEl.style.display = "none";
+    submitBlockEl.style.display = "block";
+    console.log(submitBlockEl);
+    // show final score
+    finalScoreEl.textContent = "Congratulations! Your final score is: " + totalScore + " .";
+    // clearInterval(timerInterval);  
+    timeRemainingEl.style.display = "none";
+};
+
 
 
 // QUIZBANK
