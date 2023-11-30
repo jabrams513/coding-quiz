@@ -7,11 +7,6 @@ let startQuizBtnEl = document.getElementById("startQuizBtn");
 
 let questionBlockEl = document.getElementById("questionBlock");
 let questionTextEl = document.getElementById("questionText");
-let response1BtnEl = document.getElementById("response1Btn");
-let response2BtnEl = document.getElementById("response2Btn");
-let response3BtnEl = document.getElementById("response3Btn");
-let response4BtnEl = document.getElementById("response4Btn");
-let responseButtonsEl = document.querySelectorAll(".responses");
 let rightWrongEl = document.getElementById("rightWrong");
 
 let submitBlockEl = document.getElementById("submitBlock");
@@ -30,13 +25,13 @@ let secondsRemaining = 60;
 let questionNum = 0;
 let totalScore = 0;
 let questionCount = 1;
+let addedList = JSON.parse(localStorage.getItem("ScoreList")) || [];
 
 // FUNCTIONS
 // When quiz starts, begin clock countdown, display a question, hide welcomeBlock, display questionBlock, start at the first question in the quizBank array
 function startQuiz() {
     countdown();
-    displayQuestion(questionNum);
-    questionNum = 0;
+    displayQuestion()
     welcomeBlockEl.style.display = "none";
     questionBlockEl.style.display = "block";
 }
@@ -62,7 +57,7 @@ function countdown() {
             completionEl.textContent = "You're out of time!";
             endGame();
         }
-        else if (questionCount >= quizBank.length + 1) {
+        else if (questionNum === quizBank.length) {
             // End quiz if there are no more questions left in quizBank
             clearInterval(timeInterval);
             endGame();
@@ -78,13 +73,22 @@ function countdown() {
 }
 
 // Use the quizBank to display questions and responses to the appropriate element based on which number question is being asked
-function displayQuestion(z) {
-    questionNum = z;
-    questionTextEl.textContent = quizBank[z].question;
-    response1BtnEl.textContent = quizBank[z].responses[0];
-    response2BtnEl.textContent = quizBank[z].responses[1];
-    response3BtnEl.textContent = quizBank[z].responses[2];
-    response4BtnEl.textContent = quizBank[z].responses[3];
+function displayQuestion() {
+    var buttonBox = document.getElementById("button-box");
+    buttonBox.innerHTML = ""
+    questionTextEl.textContent = quizBank[questionNum].question;
+    quizBank[questionNum].responses.forEach(function (response) {
+        var li = document.createElement("li");
+        var responseBtn = document.createElement("button");
+        responseBtn.setAttribute("class", "button response");
+        responseBtn.setAttribute("value", response);
+        responseBtn.textContent = response;
+        responseBtn.onclick = function (event) {
+            evaluateResponse(event)
+        };
+        li.appendChild(responseBtn);
+        buttonBox.appendChild(li);
+    })
 }
 
 //After pressing a response button evaluate the response and say if answer is right or wrong 
@@ -98,20 +102,20 @@ function evaluateResponse(event) {
     // Compare the correctAnswer from the quizBank to the value associated with the Button clicked
     if (quizBank[questionNum].correctAnswer == event.target.value) {
         rightWrongEl.textContent = "Correct!";
-        totalScore = totalScore + 1;
+        totalScore += 1;
         // Deduct time for wrong answers
     } else {
-        secondsRemaining = secondsRemaining - 10;
+        secondsRemaining -= 10;
         rightWrongEl.textContent = "Wrong! The correct answer is " + quizBank[questionNum].correctAnswer + " .";
     }
+    questionNum++;
     //If there are more questions in the quizBank
-    if (questionNum < quizBank.length - 1) {
+    if (questionNum < quizBank.length) {
         // display the next question or end the game
-        displayQuestion(questionNum + 1);
+        displayQuestion();
     } else {
         endGame();
     }
-    questionCount++;
 }
 
 // When the game ends hide some parts of the page and display the game score
@@ -125,27 +129,14 @@ function endGame() {
 };
 
 // Set player scores and initials to the local storage
-function addItem(z) {
-    var addedList = recordScore();
-    addedList.push(z);
+function addItem(scoreObject) {
+    addedList.push(scoreObject);
     localStorage.setItem("ScoreList", JSON.stringify(addedList));
-};
-
-// Get player scores and initials from local storage
-function recordScore() {
-    var currentList = localStorage.getItem("ScoreList");
-    if (currentList !== null) {
-        newList = JSON.parse(currentList);
-        return newList;
-    } else {
-        newList = [];
-    }
-    return newList;
 };
 
 // Save score values to use when posting score to leaderboard
 function saveScore() {
-    var scoreVal = {
+    let scoreVal = {
         player: initialsEl.value,
         score: totalScore
     }
@@ -157,29 +148,18 @@ function saveScore() {
 function postScore() {
     scoreRecordEl.innerHTML = "";
     scoreRecordEl.style.display = "block";
-    var highScores = sort();
+    addedList.sort(function (x, y) {
+        return y.score - x.score;
+    })
     // Slice the high scores array to show only the best in the list. 
-    var topFive = highScores.slice(0, 5);
-    for (var i = 0; i < topFive.length; i++) {
-        var item = topFive[i];
+    let topFive = addedList.slice(0, 5);
+    for (let i = 0; i < topFive.length; i++) {
+        let item = topFive[i];
         // Display the players and their scores on the score board
-        var li = document.createElement("li");
+        let li = document.createElement("li");
         li.textContent = item.player + " ==> " + item.score;
         li.setAttribute("data-order", i);
         scoreRecordEl.appendChild(li);
-    }
-};
-
-// Sorting scores so they appear high to low in the high score ranking list
-function sort() {
-    var primaryList = recordScore();
-    if (recordScore == null) {
-        return;
-    } else {
-        primaryList.sort(function (x, y) {
-            return y.score - x.score;
-        })
-        return primaryList;
     }
 };
 
@@ -216,11 +196,6 @@ let quizBank = [
 // EVENT LISTENERS
 // Begin timer countdown on Start Button click
 startQuizBtnEl.addEventListener("click", startQuiz);
-
-// Any clicked response button will evaluate the response and bring on the next question
-responseButtonsEl.forEach(function (click) {
-    click.addEventListener("click", evaluateResponse);
-});
 
 // After clicking on the submit button execute saveScore function
 submitBtnEl.addEventListener("click", function (event) {
